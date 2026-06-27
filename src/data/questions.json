@@ -1,0 +1,470 @@
+[
+  {
+    "id": 1,
+    "topic": "EC2 & High Availability",
+    "text": "A company is migrating a critical web application to AWS. The application must be highly available and resilient to the failure of a single Availability Zone. Which architecture meets these requirements?",
+    "options": [
+      "Deploy the application on a single EC2 instance in a single AZ with an Elastic IP.",
+      "Deploy the application on multiple EC2 instances across multiple AZs behind an Application Load Balancer.",
+      "Deploy the application on an EC2 instance in a private subnet and use a NAT Gateway.",
+      "Deploy the application using AWS Lambda in a single AZ."
+    ],
+    "correctAnswer": 1,
+    "explanation": "Deploying instances across multiple AZs behind an ALB ensures that if one AZ fails, traffic is routed to healthy instances in the other AZs."
+  },
+  {
+    "id": 2,
+    "topic": "Amazon S3",
+    "text": "A company needs to store log files for 5 years for compliance reasons. The logs will be accessed rarely, but when needed, they must be retrieved within 12 hours. Which S3 storage class is the most cost-effective?",
+    "options": [
+      "S3 Standard",
+      "S3 Intelligent-Tiering",
+      "S3 Standard-IA (Infrequent Access)",
+      "S3 Glacier Deep Archive"
+    ],
+    "correctAnswer": 3,
+    "explanation": "S3 Glacier Deep Archive is the cheapest storage class and supports retrieval times of up to 12 hours, making it perfect for long-term compliance storage."
+  },
+  {
+    "id": 3,
+    "topic": "VPC & Networking",
+    "text": "You have EC2 instances in a private subnet that need to download software updates from the internet. They must not be accessible from the public internet. What should you use?",
+    "options": [
+      "Internet Gateway (IGW)",
+      "NAT Gateway",
+      "Egress-Only Internet Gateway",
+      "AWS Transit Gateway"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A NAT Gateway allows resources in a private subnet to access the internet while preventing incoming connections from the internet."
+  },
+  {
+    "id": 4,
+    "topic": "Databases",
+    "text": "A gaming company is developing a new real-time leaderboard that requires microsecond latency and key-value data structure. Which AWS database is best suited for this?",
+    "options": [
+      "Amazon RDS for MySQL",
+      "Amazon Aurora",
+      "Amazon DynamoDB with DAX",
+      "Amazon Redshift"
+    ],
+    "correctAnswer": 2,
+    "explanation": "DynamoDB is a fast NoSQL database. When combined with DAX (DynamoDB Accelerator), it provides microsecond latency for read-heavy workloads."
+  },
+  {
+    "id": 5,
+    "topic": "Serverless",
+    "text": "A company wants to run a background job every 24 hours to process image uploads. They want to pay only for the compute time used. Which service should they choose?",
+    "options": [
+      "Amazon EC2 with a cron job",
+      "AWS Lambda triggered by Amazon EventBridge",
+      "Amazon ECS with Fargate",
+      "AWS Elastic Beanstalk"
+    ],
+    "correctAnswer": 1,
+    "explanation": "AWS Lambda is serverless (pay per compute time) and can be easily triggered on a schedule using EventBridge (formerly CloudWatch Events)."
+  },
+  {
+    "id": 6,
+    "topic": "Security",
+    "text": "A company requires all data stored in Amazon S3 to be encrypted at rest using keys managed by AWS. Which encryption option should they use?",
+    "options": [
+      "SSE-S3",
+      "SSE-KMS",
+      "SSE-C",
+      "Client-Side Encryption"
+    ],
+    "correctAnswer": 0,
+    "explanation": "SSE-S3 uses keys managed by AWS automatically. SSE-KMS uses keys managed by AWS KMS (which gives more control), but SSE-S3 is the simplest 'AWS managed' option."
+  },
+  {
+    "id": 7,
+    "topic": "Storage",
+    "text": "An application running on EC2 instances needs shared file storage that can be accessed by thousands of instances concurrently. The instances are running Linux. Which service should you choose?",
+    "options": [
+      "Amazon EBS",
+      "Amazon EFS",
+      "Amazon FSx for Windows File Server",
+      "Amazon S3"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Amazon EFS provides a scalable, shared network file system for Linux instances across multiple AZs."
+  },
+  {
+    "id": 8,
+    "topic": "Databases",
+    "text": "A financial company needs to store transaction records that cannot be altered or deleted. Which database service is designed specifically for this cryptographic ledger requirement?",
+    "options": [
+      "Amazon Aurora",
+      "Amazon DocumentDB",
+      "Amazon QLDB",
+      "Amazon DynamoDB"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Amazon QLDB (Quantum Ledger Database) provides a transparent, immutable, and cryptographically verifiable transaction log."
+  },
+  {
+    "id": 9,
+    "topic": "VPC & Networking",
+    "text": "A company needs to connect its on-premises data center to its AWS VPC securely over the internet. Which solution provides this capability?",
+    "options": [
+      "AWS Direct Connect",
+      "AWS VPN (Site-to-Site)",
+      "VPC Peering",
+      "Transit Gateway"
+    ],
+    "correctAnswer": 1,
+    "explanation": "AWS Site-to-Site VPN establishes a secure, encrypted connection over the public internet. Direct Connect uses a dedicated private connection, not the internet."
+  },
+  {
+    "id": 10,
+    "topic": "Compute & Decoupling",
+    "text": "An application generates orders that need to be processed asynchronously by a fleet of EC2 instances. The system must not lose any orders if the backend processing slows down. Which service is best?",
+    "options": [
+      "Amazon SNS",
+      "Amazon SQS",
+      "AWS Step Functions",
+      "Amazon EventBridge"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Amazon SQS is a message queue that stores messages durably until they are processed, decoupling the producers from the consumers."
+  },
+  {
+    "id": 11,
+    "topic": "Global Infrastructure",
+    "text": "A company wants to deliver video content globally with the lowest possible latency to its end users. Which AWS service should be used?",
+    "options": [
+      "AWS Global Accelerator",
+      "Amazon CloudFront",
+      "Amazon S3 Transfer Acceleration",
+      "Amazon Route 53"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Amazon CloudFront is a CDN (Content Delivery Network) that caches static and dynamic content at edge locations globally to reduce latency."
+  },
+  {
+    "id": 12,
+    "topic": "Compute",
+    "text": "You need to deploy a batch processing workload that takes several hours to run. The workload is interruptible, meaning it can stop and resume without issues. How can you optimize costs?",
+    "options": [
+      "Use On-Demand EC2 Instances",
+      "Use Spot EC2 Instances",
+      "Use Reserved EC2 Instances",
+      "Use AWS Lambda"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Spot Instances provide up to 90% discount compared to On-Demand prices and are ideal for interruptible workloads."
+  },
+  {
+    "id": 13,
+    "topic": "Monitoring & Logging",
+    "text": "A security audit requires the company to log all API calls made within their AWS account, including the identity of the caller and the IP address. Which service provides this?",
+    "options": [
+      "Amazon CloudWatch",
+      "AWS CloudTrail",
+      "AWS Config",
+      "Amazon GuardDuty"
+    ],
+    "correctAnswer": 1,
+    "explanation": "AWS CloudTrail records API calls made on your account, providing a history of AWS API calls for your account, including API caller identity and IP address."
+  },
+  {
+    "id": 14,
+    "topic": "Management",
+    "text": "A company has 50 different AWS accounts across multiple departments. They want to centrally manage billing and apply security policies across all accounts. Which service should they use?",
+    "options": [
+      "AWS IAM Identity Center",
+      "AWS Organizations",
+      "AWS Config",
+      "AWS Control Tower"
+    ],
+    "correctAnswer": 1,
+    "explanation": "AWS Organizations allows you to consolidate billing and apply Service Control Policies (SCPs) centrally across multiple AWS accounts."
+  },
+  {
+    "id": 15,
+    "topic": "Databases",
+    "text": "You are designing an application that requires an in-memory datastore for caching to improve the performance of a read-heavy RDS database. Which service should you choose?",
+    "options": [
+      "Amazon Neptune",
+      "Amazon ElastiCache",
+      "Amazon DynamoDB DAX",
+      "Amazon Redshift"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Amazon ElastiCache (Redis/Memcached) provides a fully managed in-memory data store, ideal for caching database queries."
+  },
+  {
+    "text": "A company runs a critical data analysis job every Friday evening. The job processes large datasets and requires at least 2 hours to complete without interruptions. The job is stateful and needs reliable compute resources. The company wants to minimize operational overhead while ensuring the job runs as scheduled.\nWhich solution will meet these requirements?",
+    "options": [
+      "Configure the job as a containerized task and run it on AWS Fargate using Amazon ECS. Schedule the task using Amazon EventBridge Scheduler.",
+      "Configure the job to run in an AWS Lambda function with reserved concurrency. Use Amazon EventBridge to invoke the function on a schedule.",
+      "Deploy the job on a dedicated Amazon EC2 On-Demand instance. Use a cron job to schedule the analysis.",
+      "Use an Amazon EMR cluster with Spot Instances to process the job. Use Amazon EMR Step Functions to schedule the job execution."
+    ],
+    "correctAnswer": 0,
+    "explanation": "Configure the job as a containerized task and run it on AWS Fargate using Amazon ECS. Schedule the task using Amazon EventBridge Scheduler: This is the best option because AWS Fargate provides a serverless compute engine for containers, ensuring no interruptions. EventBridge Scheduler offers an easy way to schedule tasks without requiring manual intervention.\nConfigure the job to run in an AWS Lambda function with reserved concurrency. Use Amazon EventBridge to invoke the function on a schedule: This is incorrect because Lambda functions are not suited for stateful, long-running jobs. Lambda has a maximum execution duration of 15 minutes.\nDeploy the job on a dedicated Amazon EC2 On-Demand instance. Use a cron job to schedule the analysis: While this solution avoids interruptions, it requires managing and maintaining the EC2 instance, which increases operational overhead.\nUse an Amazon EMR cluster with Spot Instances to process the job. Use Amazon EMR Step Functions to schedule the job execution: Spot Instances are not suitable for stateful jobs because they can be interrupted. This approach also introduces additional complexity with EMR setup and management.\nReferences:\nhttps://docs.aws.amazon.com/AmazonECS/latest/developerguide/scheduling_tasks.html\nhttps://docs.aws.amazon.com/eventbridge/latest/userguide/eb-run-lambda-schedule.html\nSave time with our AWS cheat sheets:\nhttps://digitalcloud.training/amazon-ecs-and-eks/",
+    "id": 16,
+    "topic": "Practice Exam (Real)"
+  },
+  {
+    "text": "A healthcare organization is designing a secure web application in the AWS Cloud for managing patient records. The application must securely retrieve and store multiple patient credentials, including access keys and passwords. The organization wants to use an AWS-managed service to handle these credentials. The solution must minimize operational overhead while ensuring security.\nWhich solution will meet these requirements with the LEAST operational overhead?",
+    "options": [
+      "Store the patient credentials in AWS Secrets Manager. Use the GetSecretValue API to securely retrieve the credentials in the application at runtime.",
+      "Store the patient credentials in an Amazon S3 bucket. Enable server-side encryption with AWS KMS keys (SSE-KMS). Use pre-signed URLs to retrieve the credentials securely.",
+      "Store the patient credentials in an Amazon RDS database table. Encrypt the credentials by using AWS Key Management Service (AWS KMS). Configure the application to query the RDS database to retrieve the credentials.",
+      "Store the patient credentials in AWS Systems Manager Parameter Store. Use the GetParametersByPath API to securely retrieve the credentials in the application at runtime."
+    ],
+    "correctAnswer": 0,
+    "explanation": "Store the patient credentials in AWS Secrets Manager. Use the GetSecretValue API to securely retrieve the credentials in the application at runtime: This is correct because Secrets Manager is designed to securely store and retrieve credentials with minimal operational overhead. It also supports secret rotation and integrates with AWS services for secure runtime access.\nStore the patient credentials in AWS Systems Manager Parameter Store. Use the GetParametersByPath API to securely retrieve the credentials in the application at runtime: This is incorrect because although Parameter Store can store credentials, it does not offer native secret rotation, which increases operational overhead.\nStore the patient credentials in an Amazon RDS database table. Encrypt the credentials by using AWS Key Management Service (AWS KMS). Configure the application to query the RDS database to retrieve the credentials: This is incorrect because manually managing credentials in an RDS database introduces significant operational complexity and does not offer built-in secret rotation or retrieval mechanisms.\nStore the patient credentials in an Amazon S3 bucket. Enable server-side encryption with AWS KMS keys (SSE-KMS). Use pre-signed URLs to retrieve the credentials securely: This is incorrect because S3 is not designed for storing credentials, and managing access via pre-signed URLs increases complexity while not offering features such as secret rotation.\nReferences: https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html\nSave time with our AWS cheat sheets:\nhttps://digitalcloud.training/aws-secrets-manager/",
+    "id": 17,
+    "topic": "Practice Exam (Real)"
+  },
+  {
+    "text": "A logistics company processes real-time sensor data from delivery vehicles to optimize routes and track vehicle health. The current architecture includes an Auto Scaling group of Amazon EC2 instances for ingesting and storing sensor data, and a separate Auto Scaling group for analyzing and generating route optimizations based on this data.\nThe company has observed performance issues during peak delivery hours when the rate of data ingestion is significantly higher than the analysis and processing rate. The company wants to ensure that both systems can scale independently, and no data is lost during scaling events.\nWhich solution will meet these requirements?",
+    "options": [
+      "Use two Amazon Simple Queue Service (Amazon SQS) queues: one for data ingestion and one for route analysis. Configure the EC2 instances to poll their respective queues and scale the Auto Scaling groups based on the ApproximateNumberOfMessages metric in each queue.",
+      "Use Amazon Kinesis Data Streams to buffer the sensor data. Configure Amazon Kinesis Data Analytics to process the data and adjust the number of EC2 instances in the analysis Auto Scaling group based on the volume of data being processed.",
+      "Replace the EC2-based Auto Scaling groups with AWS Lambda functions to process the incoming data and analysis tasks. Use Amazon DynamoDB to store the intermediate data and scale DynamoDB based on the traffic patterns.",
+      "Use two Amazon SQS queues: one for data ingestion and one for route analysis. Configure Amazon EventBridge rules to monitor queue length and scale each Auto Scaling group based on the backlog of messages in their respective queues."
+    ],
+    "correctAnswer": 0,
+    "explanation": "Use two Amazon Simple Queue Service (Amazon SQS) queues: one for data ingestion and one for route analysis. Configure the EC2 instances to poll their respective queues and scale the Auto Scaling groups based on the ApproximateNumberOfMessages metric in each queue: This is correct because SQS decouples the ingestion and analysis processes, ensuring no data is lost during traffic spikes. Scaling the Auto Scaling groups based on the queue length allows for efficient scaling that matches the workload demand for each process.\nReplace the EC2-based Auto Scaling groups with AWS Lambda functions to process the incoming data and analysis tasks. Use Amazon DynamoDB to store the intermediate data and scale DynamoDB based on the traffic patterns: This is incorrect because replacing EC2 instances with Lambda introduces architectural changes and operational overhead. Additionally, DynamoDB is not required when SQS provides an efficient decoupling mechanism.\nUse Amazon Kinesis Data Streams to buffer the sensor data. Configure Amazon Kinesis Data Analytics to process the data and adjust the number of EC2 instances in the analysis Auto Scaling group based on the volume of data being processed: This is incorrect because Kinesis introduces additional complexity and costs and is not necessary for this use case. SQS already provides buffering and scaling capabilities tailored to this scenario.\nUse two Amazon SQS queues: one for data ingestion and one for route analysis. Configure Amazon EventBridge rules to monitor queue length and scale each Auto Scaling group based on the backlog of messages in their respective queues: This is incorrect because EventBridge is not the optimal mechanism for scaling Auto Scaling groups. Scaling directly based on SQS metrics is simpler and more efficient for managing workloads in this scenario.\nReferences:\nhttps://docs.aws.amazon.com/autoscaling/ec2/userguide/as-using-sqs-queue.html\nSave time with our AWS cheat sheets:\nhttps://digitalcloud.training/aws-application-integration-services/",
+    "id": 18,
+    "topic": "Practice Exam (Real)"
+  },
+  {
+    "text": "A company is launching a new photo processing service that uses machine learning (ML) models to analyze and tag images. The service consists of independent microservices for different types of image processing tasks. Each ML model loads approximately 500 MB of data from Amazon S3 into memory at startup.\nUsers will submit images through a RESTful API, which can handle individual or batch requests. Traffic patterns are unpredictable, with peaks during marketing campaigns and minimal usage during off-hours. The company needs a scalable and cost-effective solution to manage this workload.\nWhich solution will meet these requirements?",
+    "options": [
+      "Route the API requests to an Application Load Balancer (ALB). Deploy the ML models as AWS Lambda functions. Use provisioned concurrency to ensure Lambda functions remain warm for high-performance batch processing.",
+      "Route the API requests to a Network Load Balancer (NLB). Deploy the ML models as Amazon Elastic Kubernetes Service (Amazon EKS) pods. Configure auto scaling based on CPU usage for EKS nodes.",
+      "Send the API requests to an Amazon EventBridge bus. Deploy the ML models as AWS Lambda functions that EventBridge invokes. Use auto scaling to increase memory and concurrency based on the size of the event payloads.",
+      "Send the API requests to an Amazon Simple Queue Service (Amazon SQS) queue. Deploy the ML models as Amazon Elastic Container Service (Amazon ECS) services that read messages from the queue. Use auto scaling for ECS to adjust capacity based on queue length."
+    ],
+    "correctAnswer": 3,
+    "explanation": "Send the API requests to an Amazon Simple Queue Service (Amazon SQS) queue. Deploy the ML models as Amazon Elastic Container Service (Amazon ECS) services that read messages from the queue. Use auto scaling for ECS to adjust capacity based on queue length: This solution effectively decouples the API from the backend processing with SQS, ensuring scalability during peaks. ECS services handle the asynchronous nature of requests, and auto scaling adjusts resources based on queue traffic.\nRoute the API requests to a Network Load Balancer (NLB). Deploy the ML models as Amazon Elastic Kubernetes Service (Amazon EKS) pods. Configure auto scaling based on CPU usage for EKS nodes: While scalable, this setup is more operationally complex and does not inherently manage batch processing or asynchronous workloads as well as SQS.\nRoute the API requests to an Application Load Balancer (ALB). Deploy the ML models as AWS Lambda functions. Use provisioned concurrency to ensure Lambda functions remain warm for high-performance batch processing: AWS Lambda is not optimal for this use case due to its constraints on memory and runtime, particularly with large ML models and batch requests.\nSend the API requests to an Amazon EventBridge bus. Deploy the ML models as AWS Lambda functions that EventBridge invokes. Use auto scaling to increase memory and concurrency based on the size of the event payloads: EventBridge is not suitable for handling high-frequency batch image processing tasks. AWS Lambda’s limitations also make it unsuitable for this scenario.\nReferences:\nhttps://docs.aws.amazon.com/ecs/latest/developerguide/what-is-ecs.html\nhttps://docs.aws.amazon.com/sqs/latest/dg/welcome.html\nSave time with our AWS cheat sheets:\nhttps://digitalcloud.training/aws-application-integration-services/",
+    "id": 19,
+    "topic": "Practice Exam (Real)"
+  },
+  {
+    "text": "An AWS Organization has an OU with multiple member accounts in it. The company needs to restrict the ability to launch only specific Amazon EC2 instance types. How can this policy be applied across the accounts with the least effort?",
+    "options": [
+      "Create an SCP with a deny rule that denies all but the specific instance types",
+      "Create an SCP with an allow rule that allows launching the specific instance types",
+      "Use AWS Resource Access Manager to control which launch types can be used",
+      "Create an IAM policy to deny launching all but the specific instance types"
+    ],
+    "correctAnswer": 0,
+    "explanation": "To apply the restrictions across multiple member accounts you must use a Service Control Policy (SCP) in the AWS Organization. The way you would do this is to create a deny rule that applies to anything that does not equal the specific instance type you want to allow.\nCORRECT: \"Create an SCP with a deny rule that denies all but the specific instance types\" is the correct answer.\nINCORRECT: \"Create an SCP with an allow rule that allows launching the specific instance types\" is incorrect as a deny rule is required.\nINCORRECT: \"Create an IAM policy to deny launching all but the specific instance types\" is incorrect. With IAM you need to apply the policy within each account rather than centrally so this would require much more effort.\nINCORRECT: \"Use AWS Resource Access Manager to control which launch types can be used\" is incorrect. AWS Resource Access Manager (RAM) is a service that enables you to easily and securely share AWS resources with any AWS account or within your AWS Organization. It is not used for restricting access or permissions.\nReferences:\nhttps://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_example-scps.html#example-ec2-instances\nSave time with our AWS cheat sheets:\nhttps://digitalcloud.training/aws-organizations/",
+    "id": 20,
+    "topic": "Practice Exam (Real)"
+  },
+  {
+    "text": "A company has deployed a new website on Amazon EC2 instances behind an Application Load Balancer (ALB). Amazon Route 53 is used for the DNS service. The company has asked a Solutions Architect to create a backup website with support contact details that users will be directed to automatically if the primary website is down.\nHow should the Solutions Architect deploy this solution cost-effectively?",
+    "options": [
+      "Deploy the backup website on EC2 and ALB in another Region and use Route 53 health checks for failover routing.",
+      "Configure a static website using Amazon S3 and create a Route 53 weighted routing policy.",
+      "Configure a static website using Amazon S3 and create a Route 53 failover routing policy.",
+      "Create the backup website on EC2 and ALB in another Region and create an AWS Global Accelerator endpoint."
+    ],
+    "correctAnswer": 2,
+    "explanation": "The most cost-effective solution is to create a static website using an Amazon S3 bucket and then use a failover routing policy in Amazon Route 53. With a failover routing policy users will be directed to the main website as long as it is responding to health checks successfully.\nIf the main website fails to respond to health checks (its down), Route 53 will begin to direct users to the backup website running on the Amazon S3 bucket. It’s important to set the TTL on the Route 53 records appropriately to ensure that users resolve the failover address within a short time.\nCORRECT: \"Configure a static website using Amazon S3 and create a Route 53 failover routing policy\" is the correct answer.\nINCORRECT: \"Configure a static website using Amazon S3 and create a Route 53 weighted routing policy\" is incorrect. Weighted routing is used when you want to send a percentage of traffic between multiple endpoints. In this case all traffic should go to the primary until if fails, then all should go to the backup.\nINCORRECT: \"Deploy the backup website on EC2 and ALB in another Region and use Route 53 health checks for failover routing\" is incorrect. This is not a cost-effective solution for the backup website. It can be implemented using Route 53 failover routing which uses health checks but would be an expensive option.\nINCORRECT: \"Create the backup website on EC2 and ALB in another Region and create an AWS Global Accelerator endpoint\" is incorrect. Global Accelerator is used for performance as it directs traffic to the nearest healthy endpoint. It is not useful for failover in this scenario and is also a very expensive solution.\nReferences:\nhttps://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html\nhttps://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-configuring.html\nSave time with our AWS cheat sheets:\nhttps://digitalcloud.training/amazon-s3-and-glacier/\nhttps://digitalcloud.training/amazon-route-53/",
+    "id": 21,
+    "topic": "Practice Exam (Real)"
+  },
+  {
+    "topic": "VPC & Networking",
+    "text": "A company wants to securely connect its on-premises data center to its AWS VPC. They require a dedicated, high-speed network connection that does not travel over the public internet. Which service should they use?",
+    "options": [
+      "AWS Site-to-Site VPN",
+      "AWS Direct Connect",
+      "AWS Transit Gateway",
+      "VPC Peering"
+    ],
+    "correctAnswer": 1,
+    "explanation": "AWS Direct Connect provides a dedicated private network connection from on-premises to AWS, bypassing the public internet.",
+    "id": 22
+  },
+  {
+    "topic": "Compute",
+    "text": "You are designing an architecture for an application that processes video files. The processing is highly parallelizable and can be interrupted without issues. Which EC2 purchasing option will be the most cost-effective?",
+    "options": [
+      "On-Demand Instances",
+      "Reserved Instances",
+      "Spot Instances",
+      "Dedicated Hosts"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Spot Instances are the most cost-effective for workloads that are fault-tolerant and can handle interruptions.",
+    "id": 23
+  },
+  {
+    "topic": "Storage",
+    "text": "A media company needs a shared file system that can be mounted simultaneously by hundreds of Amazon EC2 instances running Windows. Which service should they use?",
+    "options": [
+      "Amazon EFS",
+      "Amazon EBS Multi-Attach",
+      "Amazon FSx for Windows File Server",
+      "Amazon S3"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Amazon FSx for Windows File Server provides a fully managed native Windows file system that supports SMB protocol.",
+    "id": 24
+  },
+  {
+    "topic": "Databases",
+    "text": "An e-commerce website uses Amazon RDS for MySQL. During peak shopping seasons, the database experiences heavy read traffic, causing performance issues. How can a Solutions Architect improve read performance?",
+    "options": [
+      "Enable Multi-AZ",
+      "Create a Read Replica",
+      "Migrate to Amazon DynamoDB",
+      "Increase the EBS volume size"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Read Replicas allow you to offload read-heavy workloads from the primary database instance.",
+    "id": 25
+  },
+  {
+    "topic": "Security",
+    "text": "A company needs to ensure that all data stored in Amazon S3 is protected against accidental deletion. Which feature should be enabled?",
+    "options": [
+      "S3 Block Public Access",
+      "S3 Versioning",
+      "S3 Server-Side Encryption",
+      "S3 Transfer Acceleration"
+    ],
+    "correctAnswer": 1,
+    "explanation": "S3 Versioning keeps multiple variants of an object. If an object is deleted, it can be restored from a previous version.",
+    "id": 26
+  },
+  {
+    "topic": "Serverless",
+    "text": "A startup is building a microservices architecture. They need a fully managed service to route API requests to various AWS Lambda functions. Which service is appropriate?",
+    "options": [
+      "Amazon API Gateway",
+      "Application Load Balancer",
+      "AWS AppSync",
+      "Amazon CloudFront"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Amazon API Gateway is a fully managed service that makes it easy to create, publish, maintain, monitor, and secure APIs.",
+    "id": 27
+  },
+  {
+    "topic": "Management",
+    "text": "A company wants to automatically receive an alert if their monthly AWS spending exceeds $1,000. Which tool should they use?",
+    "options": [
+      "AWS Cost Explorer",
+      "AWS Budgets",
+      "AWS Trusted Advisor",
+      "Amazon CloudWatch Billing Alarms"
+    ],
+    "correctAnswer": 1,
+    "explanation": "AWS Budgets gives you the ability to set custom budgets that alert you when your costs or usage exceed your budgeted amount.",
+    "id": 28
+  },
+  {
+    "topic": "Global Infrastructure",
+    "text": "A global gaming company needs to accelerate the performance of their UDP-based multiplayer game for users around the world. Which AWS service should they use?",
+    "options": [
+      "Amazon CloudFront",
+      "AWS Global Accelerator",
+      "Amazon Route 53",
+      "AWS Transit Gateway"
+    ],
+    "correctAnswer": 1,
+    "explanation": "AWS Global Accelerator improves the availability and performance of your applications with local or global users using the AWS global network. It supports TCP and UDP.",
+    "id": 29
+  },
+  {
+    "topic": "VPC & Networking",
+    "text": "You have a web server in a public subnet and a database in a private subnet. The web server needs to communicate with the database, but the database must not be reachable from the internet. How should the security groups be configured?",
+    "options": [
+      "Allow all inbound traffic on the database security group.",
+      "Configure the database security group to allow inbound traffic only from the web server's security group.",
+      "Configure the web server security group to allow inbound traffic from the database subnet.",
+      "Use a Network ACL to block all inbound traffic to the database subnet."
+    ],
+    "correctAnswer": 1,
+    "explanation": "Security groups can reference other security groups. By allowing inbound traffic on the DB security group only from the Web security group, you ensure secure access.",
+    "id": 30
+  },
+  {
+    "topic": "Storage",
+    "text": "A company needs to store massive amounts of archive data. The data must be stored for 10 years and will rarely be accessed. Retrieval times of up to 12 hours are acceptable. What is the most cost-effective storage option?",
+    "options": [
+      "Amazon S3 Standard",
+      "Amazon S3 Glacier Flexible Retrieval",
+      "Amazon S3 Glacier Deep Archive",
+      "Amazon EBS Cold HDD (sc1)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Amazon S3 Glacier Deep Archive is the lowest-cost storage class and supports retrieval times within 12 hours.",
+    "id": 31
+  },
+  {
+    "topic": "Databases",
+    "text": "A company is migrating a Cassandra database to AWS. They want a fully managed, highly available, and scalable NoSQL database service that is compatible with Cassandra. Which service should they choose?",
+    "options": [
+      "Amazon DynamoDB",
+      "Amazon Keyspaces (for Apache Cassandra)",
+      "Amazon RDS",
+      "Amazon DocumentDB"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Amazon Keyspaces is a scalable, highly available, and managed Apache Cassandra-compatible database service.",
+    "id": 32
+  },
+  {
+    "topic": "Analytics",
+    "text": "A data engineering team needs a service to query data directly from files stored in Amazon S3 using standard SQL. Which serverless querying service should they use?",
+    "options": [
+      "Amazon Redshift",
+      "Amazon Athena",
+      "Amazon EMR",
+      "AWS Glue"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 using standard SQL.",
+    "id": 33
+  },
+  {
+    "topic": "Security",
+    "text": "A company wants to enforce a rule that all EC2 instances must be tagged with a 'Department' tag. Which AWS service can be used to monitor and evaluate this compliance rule automatically?",
+    "options": [
+      "AWS Config",
+      "AWS CloudTrail",
+      "AWS IAM",
+      "Amazon Inspector"
+    ],
+    "correctAnswer": 0,
+    "explanation": "AWS Config allows you to assess, audit, and evaluate the configurations of your AWS resources, including checking for specific tags.",
+    "id": 34
+  },
+  {
+    "topic": "Compute",
+    "text": "A company is designing a high-performance computing (HPC) cluster. They need the lowest possible network latency and highest network throughput between EC2 instances. Which deployment strategy should they use?",
+    "options": [
+      "Deploy instances in multiple Availability Zones.",
+      "Deploy instances in a Cluster Placement Group.",
+      "Deploy instances in a Spread Placement Group.",
+      "Deploy instances in a Partition Placement Group."
+    ],
+    "correctAnswer": 1,
+    "explanation": "A Cluster Placement Group packs instances close together inside an Availability Zone. This strategy enables workloads to achieve the low latency network performance necessary for tightly-coupled node-to-node communication.",
+    "id": 35
+  },
+  {
+    "topic": "Storage",
+    "text": "An application requires an Amazon EBS volume that provides the highest possible IOPS for a critical, mission-critical relational database. Which EBS volume type should be used?",
+    "options": [
+      "General Purpose SSD (gp3)",
+      "Provisioned IOPS SSD (io2)",
+      "Throughput Optimized HDD (st1)",
+      "Cold HDD (sc1)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Provisioned IOPS SSD (io1/io2) volumes are designed to meet the needs of I/O-intensive workloads, particularly database workloads, that are sensitive to storage performance and consistency.",
+    "id": 36
+  }
+]

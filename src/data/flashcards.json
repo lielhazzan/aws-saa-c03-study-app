@@ -1,0 +1,17 @@
+[
+  { "front": "Maximum size of a single object in S3?", "back": "5 TB" },
+  { "front": "Maximum size of a single PUT upload in S3?", "back": "5 GB" },
+  { "front": "Maximum size of a single item in DynamoDB?", "back": "400 KB" },
+  { "front": "Which routing policy routes traffic based on geographic location of the user?", "back": "Geolocation Routing" },
+  { "front": "Which routing policy provides the lowest latency to users?", "back": "Latency-based Routing" },
+  { "front": "What is the max execution time for an AWS Lambda function?", "back": "15 minutes (900 seconds)" },
+  { "front": "Which load balancer is best for ultra-high performance and UDP/TCP traffic?", "back": "Network Load Balancer (NLB)" },
+  { "front": "Which database service allows you to write SQL queries against data directly in S3?", "back": "Amazon Athena" },
+  { "front": "What is the default limit for VPCs per region per account?", "back": "5" },
+  { "front": "Which storage class is the most cost-effective for long-term archiving with a 12-hour retrieval time?", "back": "S3 Glacier Deep Archive" },
+  { "front": "What is the port for RDP (Remote Desktop Protocol)?", "back": "3389" },
+  { "front": "What is the port for SSH?", "back": "22" },
+  { "front": "What is the port for MySQL / Aurora?", "back": "3306" },
+  { "front": "What is the port for PostgreSQL?", "back": "5432" },
+  { "front": "Which service acts as an automated security assessment service that helps improve security and compliance?", "back": "Amazon Inspector" }
+]
