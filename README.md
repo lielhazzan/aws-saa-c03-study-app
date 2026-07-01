@@ -19,10 +19,14 @@ A massive database of over 800 exam preparation questions (including both Single
 - **Quick Practice:** Answer a question and get immediate feedback with an explanation. Great for quick learning sessions.
 - **Full Exam:** A true simulation of the actual exam - 65 questions with a timer. Your score and explanations will only be revealed at the end of the exam.
 - **Multi-Select Questions:** When a question requires multiple answers, the system displays a prominent alert ("Note: Please select X correct answers") and uses Checkboxes instead of Radio Buttons. You must select the exact number of required answers to proceed.
+- **Domain Score Breakdown:** Upon finishing a test, view your score segmented by the official SAA-C03 domains to pinpoint your weak areas.
+- **Flag for Review:** Emulates the real exam experience by letting you flag questions and review a grid summary before final submission.
 
 ### 4. Flashcards
 An excellent tool for memorizing concepts.
-- **How to use:** Read the question on the front of the card, try to answer it in your head, then click the card to flip it and reveal the answer. Use the arrow buttons to navigate through the deck.
+- **Spaced Repetition (Leitner System):** The app remembers your mastery level (1-5 stars) for each card and automatically prioritizes showing you the concepts you struggle with most.
+- **Two-Way Learning:** Practice both `Words -> Service` and `Service -> Words` to ensure deep memorization.
+- **How to use:** Read the card, flip it, and rate whether you remembered it or forgot it. Your progress is saved automatically!
 
 ### 5. Cheat Sheets
 Quick tabular summaries designed to help you differentiate between similar AWS services – a key to success in the exam.
@@ -31,6 +35,7 @@ Quick tabular summaries designed to help you differentiate between similar AWS s
 
 ### 6. Exam Tips
 A collection of useful tips you should know before taking the exam (e.g., time management, strategies for eliminating incorrect answers, etc.).
+- **Trigger Phrases Glossary:** A dedicated table that maps common exam keywords directly to their intended AWS services (e.g., "steady state" -> Reserved Instances).
 
 ### 7. AWS Services Glossary
 A comprehensive English glossary of all AWS services relevant to the exam.
