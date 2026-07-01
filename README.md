@@ -1,5 +1,7 @@
 # AWS Solutions Architect Associate (SAA-C03) - Study App
 
+> **The Core Idea:** The main goal behind this project was to combine what I am actively learning in my course with my goal of preparing for the AWS Solutions Architect Associate exam in the best way possible. By building and using this application, I can solidify my understanding of AWS while having the ultimate study tool at my fingertips.
+
 An interactive and advanced learning platform designed to help you prepare for and pass the AWS Certified Solutions Architect - Associate (SAA-C03) exam. 
 Built with React + Vite, this application centralizes all your study materials, practice exams, and summaries in one convenient place.
 

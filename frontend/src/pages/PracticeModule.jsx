@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrainCircuit, Play, CheckCircle, XCircle, Trophy, Clock, AlertCircle, Database, CheckSquare, Square } from 'lucide-react';
+import { BrainCircuit, Play, CheckCircle, XCircle, Trophy, Clock, AlertCircle, Database, CheckSquare, Square, Flag } from 'lucide-react';
 
 
 // Utility for localStorage (since we need it for analytics)
@@ -29,18 +29,47 @@ const PracticeModule = () => {
   const [timeLeft, setTimeLeft] = useState(0); // in seconds
   
   // End of quiz state
-  const [quizFinished, setQuizFinished] = useState(false);
+  const [quizState, setQuizState] = useState('active'); // 'active', 'review', 'finished'
   const [score, setScore] = useState(0);
+  const [flaggedQuestions, setFlaggedQuestions] = useState(new Set());
+  const [domainResults, setDomainResults] = useState({});
+
+  const domainMapping = {
+    'Security': 'Domain 1: Design Secure Architectures',
+    'Security & Compliance': 'Domain 1: Design Secure Architectures',
+    'Domain 3: Design Secure Applications and Architectures': 'Domain 1: Design Secure Architectures',
+    
+    'EC2 & High Availability': 'Domain 2: Design Resilient Architectures',
+    'VPC & Networking': 'Domain 2: Design Resilient Architectures',
+    'Compute & Decoupling': 'Domain 2: Design Resilient Architectures',
+    'Networking & Content Delivery': 'Domain 2: Design Resilient Architectures',
+    'Domain 1: Design Resilient Architectures': 'Domain 2: Design Resilient Architectures',
+    
+    'Amazon S3': 'Domain 3: Design High-Performing Architectures',
+    'Databases': 'Domain 3: Design High-Performing Architectures',
+    'Serverless': 'Domain 3: Design High-Performing Architectures',
+    'Storage': 'Domain 3: Design High-Performing Architectures',
+    'Compute': 'Domain 3: Design High-Performing Architectures',
+    'Analytics': 'Domain 3: Design High-Performing Architectures',
+    'Integration': 'Domain 3: Design High-Performing Architectures',
+    'Domain 2: Design High-Performing Architectures': 'Domain 3: Design High-Performing Architectures',
+    
+    'Management': 'Domain 4: Design Cost-Optimized Architectures',
+    'Management & Governance': 'Domain 4: Design Cost-Optimized Architectures',
+    'Monitoring & Logging': 'Domain 4: Design Cost-Optimized Architectures',
+    'Domain 4: Design Cost-Optimized Architectures': 'Domain 4: Design Cost-Optimized Architectures',
+  };
+  const getDomain = (topic) => domainMapping[topic] || 'Other';
 
   // Timer effect for Mock Exams
   useEffect(() => {
-    if ((activeMode === 'standard' || activeMode === 'full') && !quizFinished && timeLeft > 0) {
+    if ((activeMode === 'standard' || activeMode === 'full') && quizState !== 'finished' && timeLeft > 0) {
       const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
       return () => clearInterval(timer);
-    } else if (timeLeft === 0 && (activeMode === 'standard' || activeMode === 'full') && !quizFinished && activeQuestions.length > 0) {
+    } else if (timeLeft === 0 && (activeMode === 'standard' || activeMode === 'full') && quizState !== 'finished' && activeQuestions.length > 0) {
       finishQuiz();
     }
-  }, [timeLeft, activeMode, quizFinished, activeQuestions]);
+  }, [timeLeft, activeMode, quizState, activeQuestions]);
 
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60);
@@ -74,16 +103,30 @@ const PracticeModule = () => {
     setUserAnswers({});
     setShowExplanation(false);
     setScore(0);
-    setQuizFinished(false);
+    setQuizState('active');
+    setFlaggedQuestions(new Set());
+    setDomainResults({});
     
     if (mode === 'standard' || mode === 'full') {
       setTimeLeft(timeLimit);
     }
   };
 
+  const toggleFlag = () => {
+    setFlaggedQuestions(prev => {
+      const newFlags = new Set(prev);
+      if (newFlags.has(currentQuestionIndex)) {
+        newFlags.delete(currentQuestionIndex);
+      } else {
+        newFlags.add(currentQuestionIndex);
+      }
+      return newFlags;
+    });
+  };
+
   const handleAnswerSelect = (index) => {
     if (activeMode === 'quick' && showExplanation) return;
-    if (quizFinished) return;
+    if (quizState === 'finished') return;
     
     setUserAnswers(prev => {
       const q = activeQuestions[currentQuestionIndex];
@@ -129,16 +172,29 @@ const PracticeModule = () => {
 
   const finishQuiz = async () => {
     let correct = 0;
+    const domainStats = {
+      'Domain 1: Design Secure Architectures': { correct: 0, total: 0 },
+      'Domain 2: Design Resilient Architectures': { correct: 0, total: 0 },
+      'Domain 3: Design High-Performing Architectures': { correct: 0, total: 0 },
+      'Domain 4: Design Cost-Optimized Architectures': { correct: 0, total: 0 },
+      'Other': { correct: 0, total: 0 }
+    };
+
     activeQuestions.forEach((q, idx) => {
       const uA = userAnswers[idx] || [];
       const cA = q.correctAnswers || [];
-      if (uA.length > 0 && uA.length === cA.length && uA.every(val => cA.includes(val))) {
-        correct++;
-      }
+      const isCorrect = uA.length > 0 && uA.length === cA.length && uA.every(val => cA.includes(val));
+      
+      if (isCorrect) correct++;
+
+      const domain = getDomain(q.topic);
+      domainStats[domain].total++;
+      if (isCorrect) domainStats[domain].correct++;
     });
 
     setScore(correct);
-    setQuizFinished(true);
+    setDomainResults(domainStats);
+    setQuizState('finished');
 
     const percentage = Math.round((correct / activeQuestions.length) * 100);
     try {
@@ -153,7 +209,47 @@ const PracticeModule = () => {
   }
 
   if (activeMode) {
-    if (quizFinished) {
+    if (quizState === 'review') {
+      return (
+        <div className="animate-fade-in glass-panel" style={{ padding: '3rem', maxWidth: '800px', margin: '0 auto' }}>
+          <h2 style={{ marginBottom: '2rem', textAlign: 'center' }}>סקירת שאלות לפני הגשה</h2>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(45px, 1fr))', gap: '10px', marginBottom: '3rem', direction: 'ltr' }}>
+            {activeQuestions.map((q, idx) => {
+              const reqAnswers = q.correctAnswers ? q.correctAnswers.length : 1;
+              const isAnswered = userAnswers[idx] && userAnswers[idx].length === reqAnswers;
+              const isFlagged = flaggedQuestions.has(idx);
+              return (
+                <button
+                  key={idx}
+                  onClick={() => { setCurrentQuestionIndex(idx); setQuizState('active'); }}
+                  style={{
+                    position: 'relative',
+                    padding: '10px 5px',
+                    borderRadius: '6px',
+                    border: isFlagged ? '2px solid var(--danger)' : '1px solid var(--border-color)',
+                    background: isAnswered ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255,255,255,0.05)',
+                    color: 'var(--text-main)',
+                    cursor: 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  {idx + 1}
+                  {isFlagged && <Flag size={12} style={{ position: 'absolute', top: '-6px', right: '-6px', color: 'var(--danger)', background: 'var(--bg-card)', borderRadius: '50%' }} />}
+                </button>
+              )
+            })}
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+            <button className="btn btn-secondary" onClick={() => { setCurrentQuestionIndex(0); setQuizState('active'); }}>חזור למבחן</button>
+            <button className="btn btn-primary" style={{ background: 'var(--danger)', border: 'none' }} onClick={finishQuiz}>הגש סופית</button>
+          </div>
+        </div>
+      );
+    }
+
+    if (quizState === 'finished') {
       const percentage = Math.round((score / activeQuestions.length) * 100);
       const passed = percentage >= 72; // AWS passing score is 720/1000
 
@@ -168,15 +264,33 @@ const PracticeModule = () => {
           <h1 style={{ fontSize: '2.5rem', marginBottom: '1rem', color: passed ? 'var(--success)' : 'var(--danger)' }}>
             {passed ? 'עברת את המבחן!' : 'לא עברת את המבחן.'}
           </h1>
-          <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
+          <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
             הציון שלך: {percentage}% ({score} מתוך {activeQuestions.length} תשובות נכונות)
           </p>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
+          <p style={{ color: 'var(--text-muted)' }}>
             סף המעבר למבחן AWS Certified Solutions Architect הוא 72%.
           </p>
+
+          <div style={{ textAlign: 'left', margin: '2rem 0', background: 'rgba(0,0,0,0.2)', padding: '1.5rem', borderRadius: '8px', direction: 'ltr' }}>
+            <h3 style={{ marginBottom: '1.5rem', color: 'var(--accent-aws)' }}>Domain Breakdown</h3>
+            {Object.entries(domainResults).filter(([d, stats]) => stats.total > 0).map(([domain, stats]) => {
+              const pct = Math.round((stats.correct / stats.total) * 100);
+              return (
+                <div key={domain} style={{ marginBottom: '1.2rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', marginBottom: '0.4rem' }}>
+                    <span style={{ fontWeight: '500' }}>{domain}</span>
+                    <span>{pct}% ({stats.correct}/{stats.total})</span>
+                  </div>
+                  <div style={{ width: '100%', height: '8px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}>
+                    <div style={{ width: `${pct}%`, height: '100%', background: pct >= 72 ? 'var(--success)' : 'var(--danger)', transition: 'width 1s ease-in-out' }}></div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
           
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-            <button className="btn btn-secondary" onClick={() => { setQuizFinished(false); setCurrentQuestionIndex(0); setShowExplanation(true); }}>
+            <button className="btn btn-secondary" onClick={() => { setQuizState('active'); setCurrentQuestionIndex(0); setShowExplanation(true); }}>
               סקור טעויות
             </button>
             <button className="btn btn-primary" onClick={() => setActiveMode(null)}>חזור למסך הראשי</button>
@@ -193,7 +307,22 @@ const PracticeModule = () => {
     return (
       <div className="animate-fade-in glass-panel" style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', color: 'var(--text-muted)' }}>
-          <span>שאלה {currentQuestionIndex + 1} מתוך {activeQuestions.length}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <span>שאלה {currentQuestionIndex + 1} מתוך {activeQuestions.length}</span>
+            {activeMode !== 'quick' && !showExplanation && quizState !== 'finished' && (
+              <button 
+                onClick={toggleFlag}
+                style={{ 
+                  display: 'flex', alignItems: 'center', gap: '4px', background: 'transparent', 
+                  border: '1px solid ' + (flaggedQuestions.has(currentQuestionIndex) ? 'var(--danger)' : 'var(--border-color)'), 
+                  color: flaggedQuestions.has(currentQuestionIndex) ? 'var(--danger)' : 'var(--text-muted)',
+                  padding: '4px 8px', borderRadius: '4px', cursor: 'pointer', transition: 'all 0.2s'
+                }}
+              >
+                <Flag size={14} /> {flaggedQuestions.has(currentQuestionIndex) ? 'סומן' : 'סמן'}
+              </button>
+            )}
+          </div>
           
           {(activeMode === 'standard' || activeMode === 'full') && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: timeLeft < 300 ? 'var(--danger)' : 'var(--accent-aws)' }}>
@@ -225,7 +354,7 @@ const PracticeModule = () => {
               ? (isSelected ? <CheckSquare size={20} color="var(--accent-aws)" /> : <Square size={20} color="var(--text-muted)" />)
               : (isSelected ? <CheckCircle size={20} color="var(--accent-aws)" /> : <Circle size={20} color="var(--text-muted)" />);
 
-            if (showExplanation || ((activeMode === 'standard' || activeMode === 'full') && quizFinished)) {
+            if (showExplanation || ((activeMode === 'standard' || activeMode === 'full') && quizState === 'finished')) {
               if (q.correctAnswers && q.correctAnswers.includes(idx)) {
                 bgColor = 'rgba(16, 185, 129, 0.2)';
                 borderColor = 'var(--success)';
@@ -302,8 +431,8 @@ const PracticeModule = () => {
                   שאלה הבאה
                 </button>
               ) : (
-                <button className="btn btn-primary" onClick={finishQuiz}>
-                  הגש מבחן
+                <button className="btn btn-primary" onClick={() => setQuizState('review')}>
+                  סקור מבחן והגש
                 </button>
               )
             )}
