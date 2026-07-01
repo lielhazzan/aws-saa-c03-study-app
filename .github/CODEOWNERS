@@ -1,0 +1,5 @@
+# CODEOWNERS file to protect test directories
+# Only the specified owners can approve pull requests modifying these files.
+
+/frontend/tests/ @lielhazzan
+/backend/tests/ @lielhazzan

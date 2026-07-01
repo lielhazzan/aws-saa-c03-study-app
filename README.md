@@ -106,6 +106,38 @@ If you prefer to run the entire stack (Frontend + Backend) using Docker, you can
 
 ---
 
+## 🧪 Automated Testing & CI/CD
+
+The project features a robust automated testing and Continuous Integration (CI) pipeline configured via GitHub Actions.
+
+### 1. Frontend Tests (Vitest)
+The React frontend uses **Vitest** and React Testing Library.
+- To run the tests locally:
+  ```bash
+  cd frontend
+  npm run test
+  ```
+
+### 2. Backend Tests (Pytest)
+The FastAPI backend uses **Pytest** to verify API endpoints.
+- To run the tests locally:
+  ```bash
+  cd backend
+  pytest
+  ```
+
+### 3. CI/CD Pipeline (`ci.yml`)
+On every Push or Pull Request to the `main` branch, GitHub Actions automatically:
+- Builds the Frontend and checks for Linting errors.
+- Runs Frontend unit tests (`vitest`).
+- Runs Backend API tests (`pytest`).
+- Performs a **Docker Build Check** (`docker-compose build`) to ensure containerization remains stable.
+
+### 4. Protected Test Directories (`CODEOWNERS`)
+To maintain test integrity, the `/frontend/tests/` and `/backend/tests/` directories are protected via a `.github/CODEOWNERS` file. Pull Requests modifying these files require explicit approval from the repository owner (`@lielhazzan`).
+
+---
+
 **Disclaimer:** Whoever wants to use this application is more than welcome to enjoy it! However, please note that I do not guarantee the information here is 100% up to date or completely accurate. This is simply my personal way of studying for the exam.
 
 **Good luck with your studies and the certification exam! 🎓**
