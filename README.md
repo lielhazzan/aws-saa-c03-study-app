@@ -35,7 +35,8 @@ Quick tabular summaries designed to help you differentiate between similar AWS s
 
 ### 6. Exam Tips
 A collection of useful tips you should know before taking the exam (e.g., time management, strategies for eliminating incorrect answers, etc.).
-- **Trigger Phrases Glossary:** A dedicated table that maps common exam keywords directly to their intended AWS services (e.g., "steady state" -> Reserved Instances).
+- **The Ultimate Trigger List:** A comprehensive, categorized glossary mapping 20+ common exam keywords directly to their intended AWS services.
+- **Exam Traps & Mantras:** Dedicated sections highlighting common exam pitfalls and the ultimate strategy for answering tricky questions.
 
 ### 7. AWS Services Glossary
 A comprehensive English glossary of all AWS services relevant to the exam.
