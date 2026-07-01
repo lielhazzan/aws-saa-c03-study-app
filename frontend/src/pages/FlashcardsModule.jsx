@@ -1,35 +1,43 @@
 import { useState, useEffect } from 'react';
+import localFlashcardsData from '../data/flashcards.json';
 
 const FlashcardsModule = () => {
   const [flashcardsData, setFlashcardsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8001/api/flashcards')
-      .then(res => res.json())
-      .then(data => {
-        setFlashcardsData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching flashcards:', err);
-        setLoading(false);
-      });
+    setFlashcardsData(localFlashcardsData);
+    setLoading(false);
   }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [selectedKeyword, setSelectedKeyword] = useState('All');
+
+  // Derive unique keywords
+  const allKeywords = ['All', ...new Set(flashcardsData.flatMap(card => card.tags || []))].filter(Boolean);
+
+  // Filter cards based on selection
+  const filteredCards = selectedKeyword === 'All' 
+    ? flashcardsData 
+    : flashcardsData.filter(card => card.tags && card.tags.includes(selectedKeyword));
+
+  // Reset index when keyword changes
+  useEffect(() => {
+    setCurrentIndex(0);
+    setIsFlipped(false);
+  }, [selectedKeyword]);
 
   const nextCard = () => {
     setIsFlipped(false);
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % flashcardsData.length);
+      setCurrentIndex((prev) => (prev + 1) % filteredCards.length);
     }, 150);
   };
 
   const prevCard = () => {
     setIsFlipped(false);
     setTimeout(() => {
-      setCurrentIndex((prev) => (prev - 1 + flashcardsData.length) % flashcardsData.length);
+      setCurrentIndex((prev) => (prev - 1 + filteredCards.length) % filteredCards.length);
     }, 150);
   };
 
@@ -41,7 +49,7 @@ const FlashcardsModule = () => {
     return <div style={{ textAlign: 'center', padding: '4rem' }}>אין נתונים.</div>;
   }
 
-  const currentCard = flashcardsData[currentIndex];
+  const currentCard = filteredCards[currentIndex];
 
   return (
     <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: '60vh' }}>
@@ -49,6 +57,35 @@ const FlashcardsModule = () => {
         <h1>כרטיסיות זיכרון (Flashcards)</h1>
         <p style={{ color: 'var(--text-muted)' }}>שנן עובדות קריטיות למבחן. לחץ על הכרטיס כדי להפוך אותו.</p>
       </header>
+
+      {allKeywords.length > 1 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', justifyContent: 'center', marginBottom: '2rem', maxWidth: '800px' }}>
+          {allKeywords.map(keyword => (
+            <button
+              key={keyword}
+              onClick={() => setSelectedKeyword(keyword)}
+              style={{
+                padding: '0.5rem 1rem',
+                borderRadius: '20px',
+                border: '1px solid var(--accent-aws)',
+                background: selectedKeyword === keyword ? 'var(--accent-aws)' : 'rgba(255, 255, 255, 0.05)',
+                color: selectedKeyword === keyword ? '#000' : 'var(--text-main)',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                fontWeight: selectedKeyword === keyword ? 'bold' : 'normal',
+                fontSize: '0.9rem'
+              }}
+            >
+              {keyword === 'All' ? 'הכל' : keyword}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {filteredCards.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>אין כרטיסיות למילת מפתח זו.</div>
+      ) : (
+        <>
 
       <div 
         style={{
@@ -110,9 +147,11 @@ const FlashcardsModule = () => {
 
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <button className="btn btn-secondary" onClick={prevCard}>&larr; קודם</button>
-        <span style={{ color: 'var(--text-muted)', minWidth: '60px', textAlign: 'center' }}>{currentIndex + 1} / {flashcardsData.length}</span>
+        <span style={{ color: 'var(--text-muted)', minWidth: '60px', textAlign: 'center' }}>{currentIndex + 1} / {filteredCards.length}</span>
         <button className="btn btn-primary" onClick={nextCard}>הבא &rarr;</button>
       </div>
+      </>
+      )}
     </div>
   );
 };

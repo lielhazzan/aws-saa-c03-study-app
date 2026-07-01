@@ -28,7 +28,11 @@ def load_json(filename):
     filepath = os.path.join(DATA_DIR, filename)
     if os.path.exists(filepath):
         with open(filepath, "r", encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+            # Unpack wrapped JSON (e.g., from MongoDB export)
+            if isinstance(data, dict) and "data" in data:
+                return data["data"]
+            return data
     return []
 
 @app.get("/api/questions")

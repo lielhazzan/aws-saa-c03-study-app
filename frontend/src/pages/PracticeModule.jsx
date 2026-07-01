@@ -5,21 +5,15 @@ import { BrainCircuit, Play, CheckCircle, XCircle, Trophy, Clock, AlertCircle, D
 // Utility for localStorage (since we need it for analytics)
 import { saveExamResult } from '../utils/storage';
 
+import localQuestionsData from '../data/questions.json';
+
 const PracticeModule = () => {
   const [questionsData, setQuestionsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8001/api/questions')
-      .then(res => res.json())
-      .then(data => {
-        setQuestionsData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching questions:', err);
-        setLoading(false);
-      });
+    setQuestionsData(localQuestionsData);
+    setLoading(false);
   }, []);
   const [activeMode, setActiveMode] = useState(null); // 'quick', 'standard', or 'full'
   const [activeQuestions, setActiveQuestions] = useState([]);
@@ -54,19 +48,23 @@ const PracticeModule = () => {
     return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  const startQuiz = (mode) => {
-    const shuffled = [...questionsData].sort(() => 0.5 - Math.random());
+  const startQuiz = (mode, selectedTopic = null) => {
+    let filteredQuestions = questionsData;
+    if (mode === 'topic' && selectedTopic) {
+      filteredQuestions = questionsData.filter(q => q.topic === selectedTopic);
+    }
+    
+    const shuffled = [...filteredQuestions].sort(() => 0.5 - Math.random());
     let count;
-    let timeLimit;
+    let timeLimit = 0;
     
     if (mode === 'quick') {
       count = 5;
-      timeLimit = 0;
     } else if (mode === 'standard') {
-      count = Math.min(65, questionsData.length);
+      count = Math.min(65, filteredQuestions.length);
       timeLimit = 130 * 60; // 130 minutes for 65 questions
-    } else if (mode === 'full') {
-      count = questionsData.length;
+    } else if (mode === 'full' || mode === 'topic') {
+      count = filteredQuestions.length;
       timeLimit = count * 2 * 60; // 2 minutes per question
     }
     
@@ -371,6 +369,43 @@ const PracticeModule = () => {
           <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', background: 'var(--accent-blue)', color: 'white' }} onClick={() => startQuiz('full')}>
             <Play size={18} /> התחל אתגר
           </button>
+        </div>
+
+        {/* Topic Quiz */}
+        <div className="glass-panel" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', height: '100%', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+            <div style={{ background: 'rgba(16, 185, 129, 0.2)', padding: '12px', borderRadius: '12px', color: 'var(--success)' }}>
+              <CheckSquare size={24} />
+            </div>
+            <h2 style={{ margin: 0, fontSize: '1.5rem' }}>תרגול לפי נושא</h2>
+          </div>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', flex: 1 }}>
+            בחר נושא ספציפי מהרשימה כדי לתרגל רק את השאלות השייכות לאותו נושא.
+          </p>
+          
+          <select 
+            onChange={(e) => {
+              if(e.target.value) {
+                startQuiz('topic', e.target.value);
+                e.target.value = ""; // Reset for next time
+              }
+            }}
+            style={{ 
+              width: '100%', 
+              padding: '0.8rem', 
+              borderRadius: '8px', 
+              border: '1px solid var(--border-color)', 
+              background: 'rgba(0,0,0,0.2)', 
+              color: 'var(--text-main)', 
+              cursor: 'pointer', 
+              fontSize: '1rem' 
+            }}
+          >
+            <option value="">-- בחר נושא לתרגול --</option>
+            {[...new Set(questionsData.map(q => q.topic))].filter(Boolean).map(topic => (
+              <option key={topic} value={topic}>{topic} ({questionsData.filter(q => q.topic === topic).length} שאלות)</option>
+            ))}
+          </select>
         </div>
 
       </div>

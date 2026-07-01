@@ -1,0 +1,225 @@
+[
+  {
+    "name": "Amazon EC2 (Elastic Compute Cloud)",
+    "category": "Compute",
+    "description": "Secure and resizable compute capacity (virtual servers) in the cloud.",
+    "examTips": [
+      "Spot instances for cheap/fault-tolerant workloads.",
+      "Reserved Instances for steady-state workloads (1-3 year commitment).",
+      "On-Demand for short-term, unpredictable workloads.",
+      "Dedicated Hosts for compliance and server-bound software licenses."
+    ]
+  },
+  {
+    "name": "AWS Lambda",
+    "category": "Compute",
+    "description": "Serverless compute service that runs code in response to events and automatically manages the compute resources.",
+    "examTips": [
+      "Maximum execution time is 15 minutes.",
+      "Priced by invocation and duration (per millisecond).",
+      "Great for event-driven architectures (e.g., S3 triggers, API Gateway)."
+    ]
+  },
+  {
+    "name": "Amazon ECS (Elastic Container Service)",
+    "category": "Compute",
+    "description": "Highly scalable, high-performance container orchestration service that supports Docker containers.",
+    "examTips": [
+      "Can run on EC2 instances or AWS Fargate (serverless).",
+      "Use Fargate to avoid managing the underlying servers."
+    ]
+  },
+  {
+    "name": "Amazon S3 (Simple Storage Service)",
+    "category": "Storage",
+    "description": "Object storage service offering industry-leading scalability, data availability, security, and performance.",
+    "examTips": [
+      "Standard is for frequently accessed data.",
+      "S3 Intelligent-Tiering moves data automatically based on access patterns.",
+      "S3 Glacier is for long-term archiving (retrieval times from minutes to hours).",
+      "Use multipart upload for files > 100MB (required > 5GB)."
+    ]
+  },
+  {
+    "name": "Amazon EBS (Elastic Block Store)",
+    "category": "Storage",
+    "description": "Easy to use, high performance block storage service designed for use with Amazon EC2.",
+    "examTips": [
+      "EBS volumes are AZ-specific. They must be in the same AZ as the EC2 instance.",
+      "Snapshots are incremental backups stored in S3.",
+      "Provisioned IOPS (io1/io2) for high-performance databases."
+    ]
+  },
+  {
+    "name": "Amazon EFS (Elastic File System)",
+    "category": "Storage",
+    "description": "Simple, serverless, set-and-forget, elastic file system for Linux EC2 instances.",
+    "examTips": [
+      "Can be mounted to multiple EC2 instances across multiple AZs concurrently.",
+      "Uses the NFS protocol.",
+      "Not supported for Windows instances (use FSx for Windows instead)."
+    ]
+  },
+  {
+    "name": "Amazon FSx",
+    "category": "Storage",
+    "description": "Fully managed third-party file systems.",
+    "examTips": [
+      "FSx for Windows File Server (supports SMB, Active Directory).",
+      "FSx for Lustre (high-performance file system for HPC and Machine Learning)."
+    ]
+  },
+  {
+    "name": "Amazon RDS (Relational Database Service)",
+    "category": "Database",
+    "description": "Managed relational database service for MySQL, PostgreSQL, Oracle, SQL Server, and MariaDB.",
+    "examTips": [
+      "Multi-AZ for Disaster Recovery (synchronous replication).",
+      "Read Replicas for performance scaling (asynchronous replication).",
+      "Automated backups and point-in-time recovery."
+    ]
+  },
+  {
+    "name": "Amazon Aurora",
+    "category": "Database",
+    "description": "MySQL and PostgreSQL-compatible relational database built for the cloud.",
+    "examTips": [
+      "Up to 5x faster than standard MySQL, 3x faster than standard PostgreSQL.",
+      "Storage automatically scales up to 128 TB.",
+      "Aurora Global Database for cross-region disaster recovery and low-latency global reads."
+    ]
+  },
+  {
+    "name": "Amazon DynamoDB",
+    "category": "Database",
+    "description": "Key-value and document database that delivers single-digit millisecond performance at any scale.",
+    "examTips": [
+      "Fully managed NoSQL database, Serverless.",
+      "DAX (DynamoDB Accelerator) for microsecond read latency.",
+      "Global Tables for active-active cross-region replication."
+    ]
+  },
+  {
+    "name": "Amazon VPC (Virtual Private Cloud)",
+    "category": "Networking",
+    "description": "Logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network.",
+    "examTips": [
+      "Security Groups act at the instance level (Stateful).",
+      "Network ACLs act at the subnet level (Stateless).",
+      "VPC Peering connects two VPCs; it is not transitive."
+    ]
+  },
+  {
+    "name": "Amazon Route 53",
+    "category": "Networking",
+    "description": "A highly available and scalable cloud Domain Name System (DNS) web service.",
+    "examTips": [
+      "Routing policies: Simple, Weighted, Latency, Failover, Geolocation, Geoproximity, Multivalue.",
+      "Can be used to perform health checks and route traffic to healthy endpoints."
+    ]
+  },
+  {
+    "name": "Amazon CloudFront",
+    "category": "Networking",
+    "description": "Fast content delivery network (CDN) service that securely delivers data, videos, applications, and APIs.",
+    "examTips": [
+      "Caches content at Edge Locations to reduce latency.",
+      "Integrates with AWS WAF for security against DDoS and web exploits.",
+      "OAC (Origin Access Control) / OAI is used to restrict S3 bucket access to CloudFront only."
+    ]
+  },
+  {
+    "name": "AWS Global Accelerator",
+    "category": "Networking",
+    "description": "Networking service that improves the availability and performance of applications with global users.",
+    "examTips": [
+      "Provides two static Anycast IP addresses.",
+      "Routes traffic over the AWS global network (bypassing the public internet) to the closest healthy endpoint."
+    ]
+  },
+  {
+    "name": "AWS IAM (Identity and Access Management)",
+    "category": "Security",
+    "description": "Manage access to AWS services and resources securely.",
+    "examTips": [
+      "Users, Groups, Roles, and Policies.",
+      "Roles are used for delegating permissions (e.g., EC2 instances accessing S3) without using access keys.",
+      "Follow the principle of least privilege."
+    ]
+  },
+  {
+    "name": "AWS KMS (Key Management Service)",
+    "category": "Security",
+    "description": "Create and manage cryptographic keys and control their use across a wide range of AWS services.",
+    "examTips": [
+      "Used for encrypting data at rest (S3, EBS, RDS, etc.).",
+      "Customer Managed Keys (CMK) vs AWS Managed Keys."
+    ]
+  },
+  {
+    "name": "AWS Secrets Manager",
+    "category": "Security",
+    "description": "Helps you protect secrets needed to access your applications, services, and IT resources.",
+    "examTips": [
+      "Built-in secret rotation (using Lambda).",
+      "Ideal for database credentials and API keys (compare with Systems Manager Parameter Store which doesn't have native rotation)."
+    ]
+  },
+  {
+    "name": "AWS WAF (Web Application Firewall)",
+    "category": "Security",
+    "description": "Helps protect your web applications or APIs against common web exploits.",
+    "examTips": [
+      "Can be attached to CloudFront, ALB, API Gateway, or AppSync.",
+      "Protects against SQL injection, Cross-Site Scripting (XSS), and IP blocks."
+    ]
+  },
+  {
+    "name": "Amazon SQS (Simple Queue Service)",
+    "category": "Integration",
+    "description": "Fully managed message queuing for microservices, distributed systems, and serverless applications.",
+    "examTips": [
+      "Used to decouple applications.",
+      "Standard queue (best-effort ordering, at-least-once delivery).",
+      "FIFO queue (strict ordering, exactly-once processing).",
+      "Visibility timeout prevents other workers from seeing a message being processed."
+    ]
+  },
+  {
+    "name": "Amazon SNS (Simple Notification Service)",
+    "category": "Integration",
+    "description": "Fully managed pub/sub messaging, SMS, email, and mobile push notifications.",
+    "examTips": [
+      "Pub/Sub model (Push-based).",
+      "Can fan-out messages to multiple SQS queues or Lambda functions."
+    ]
+  },
+  {
+    "name": "Amazon EventBridge",
+    "category": "Integration",
+    "description": "Serverless event bus that connects application data from your own apps, SaaS, and AWS services.",
+    "examTips": [
+      "The modern replacement for CloudWatch Events.",
+      "Used to schedule cron jobs (EventBridge Scheduler) or react to state changes in AWS resources."
+    ]
+  },
+  {
+    "name": "AWS CloudTrail",
+    "category": "Management",
+    "description": "Tracks user activity and API usage across your AWS infrastructure.",
+    "examTips": [
+      "Answers 'Who did what, when, and from where?'.",
+      "Essential for auditing and compliance."
+    ]
+  },
+  {
+    "name": "Amazon CloudWatch",
+    "category": "Management",
+    "description": "Monitoring and observability service built for DevOps engineers, developers, and IT managers.",
+    "examTips": [
+      "CloudWatch Metrics: Monitor resources (CPU, Network).",
+      "CloudWatch Logs: Centralized log storage.",
+      "CloudWatch Alarms: Trigger notifications or Auto Scaling actions based on metrics."
+    ]
+  }
+]

@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Search, Server, Database, Shield, Globe, Cpu, Layers } from 'lucide-react';
+import localServicesData from '../data/aws_services.json';
 
 const categoryIcons = {
   'Compute': <Server size={20} />,
@@ -18,16 +19,8 @@ const AwsServices = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
-    fetch('http://localhost:8001/api/services')
-      .then(res => res.json())
-      .then(data => {
-        setServicesData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching services:', err);
-        setLoading(false);
-      });
+    setServicesData(localServicesData);
+    setLoading(false);
   }, []);
 
   const categories = ['All', ...new Set(servicesData.map(s => s.category))];

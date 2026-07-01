@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Lightbulb } from 'lucide-react';
+import localTipsData from '../data/tips.json';
 
 const ExamTips = () => {
   const [tipsData, setTipsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:8001/api/tips')
-      .then(res => res.json())
-      .then(data => {
-        setTipsData(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error('Error fetching tips:', err);
-        setLoading(false);
-      });
+    setTipsData(localTipsData);
+    setLoading(false);
   }, []);
 
   if (loading) {
