@@ -5,15 +5,22 @@ import { BrainCircuit, Play, CheckCircle, XCircle, Trophy, Clock, AlertCircle, D
 // Utility for localStorage (since we need it for analytics)
 import { saveExamResult } from '../utils/storage';
 
-import localQuestionsData from '../data/questions.json';
 
 const PracticeModule = () => {
   const [questionsData, setQuestionsData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setQuestionsData(localQuestionsData);
-    setLoading(false);
+    fetch('http://localhost:8001/api/questions')
+      .then(res => res.json())
+      .then(data => {
+        setQuestionsData(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch questions:", err);
+        setLoading(false);
+      });
   }, []);
   const [activeMode, setActiveMode] = useState(null); // 'quick', 'standard', or 'full'
   const [activeQuestions, setActiveQuestions] = useState([]);
@@ -78,6 +85,11 @@ const PracticeModule = () => {
   };
 
   const startQuiz = (mode, selectedTopic = null) => {
+    if (!questionsData || questionsData.length === 0) {
+      alert("שגיאה: לא נטענו שאלות מהשרת. אנא ודא שהשרת פועל ורענן את העמוד.");
+      return;
+    }
+
     let filteredQuestions = questionsData;
     if (mode === 'topic' && selectedTopic) {
       filteredQuestions = questionsData.filter(q => q.topic === selectedTopic);
@@ -300,6 +312,15 @@ const PracticeModule = () => {
     }
 
     const q = activeQuestions[currentQuestionIndex];
+    if (!q) {
+      return (
+        <div className="animate-fade-in glass-panel" style={{ padding: '2rem', textAlign: 'center', color: 'var(--danger)' }}>
+          <h2>שגיאה: לא נמצאה השאלה המבוקשת.</h2>
+          <button className="btn btn-secondary" onClick={() => setActiveMode(null)} style={{ marginTop: '1rem' }}>חזור אחורה</button>
+        </div>
+      );
+    }
+    
     const currentAns = userAnswers[currentQuestionIndex] || [];
     const requiredAnswers = q.correctAnswers ? q.correctAnswers.length : 1;
     const hasAnsweredCurrent = currentAns.length === requiredAnswers;
@@ -381,7 +402,7 @@ const PracticeModule = () => {
                   background: bgColor,
                   border: `1px solid ${borderColor}`,
                   borderRadius: '8px',
-                  cursor: (showExplanation || quizFinished) ? 'default' : 'pointer',
+                  cursor: (showExplanation || quizState === 'finished') ? 'default' : 'pointer',
                   transition: 'all 0.2s',
                   direction: 'ltr',
                   textAlign: 'left'

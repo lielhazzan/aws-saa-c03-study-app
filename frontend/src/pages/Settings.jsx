@@ -26,13 +26,14 @@ const Settings = () => {
 
   const handleReset = async () => {
     try {
-      await clearExamResults();
+      await fetch('http://localhost:8001/api/results', { method: 'DELETE' });
+      setShowConfirm(false);
+      alert('כל נתוני ההתקדמות והציונים נמחקו בהצלחה ממסד הנתונים.');
+      window.location.reload(); // Reload to refresh Dashboard stats
     } catch (err) {
-      console.error('Failed to clear results:', err);
+      console.error("Failed to clear results", err);
+      alert('שגיאה במחיקת הנתונים.');
     }
-    setShowConfirm(false);
-    alert('כל נתוני ההתקדמות והציונים נמחקו בהצלחה.');
-    window.location.reload();
   };
 
   return (

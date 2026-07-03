@@ -104,6 +104,15 @@ If you prefer to run the entire stack (Frontend + Backend) using Docker, you can
    ```
 4. The application will be available at `http://localhost` (port 80), and the backend API at `http://localhost:8001`.
 
+### Running with Kubernetes (K8s) ☸️
+To deploy the application to a Kubernetes cluster (like Minikube, kind, or EKS):
+1. Ensure your Docker images are built and available to the cluster (`aws-test-backend:latest` and `aws-test-frontend:latest`).
+2. Apply the Kubernetes manifests:
+   ```bash
+   kubectl apply -f k8s/
+   ```
+3. The frontend Service is configured as a `LoadBalancer` (port 80) and the backend Service as `ClusterIP` (port 8001).
+
 ---
 
 ## 🧪 Automated Testing & CI/CD

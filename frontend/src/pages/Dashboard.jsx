@@ -2,8 +2,6 @@ import { BookOpen, CheckCircle, Trophy, Clock, BrainCircuit } from 'lucide-react
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-import { getExamStats } from '../utils/storage';
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const [avgScore, setAvgScore] = useState(0);
@@ -13,12 +11,13 @@ const Dashboard = () => {
   const [daysLeft, setDaysLeft] = useState(null);
 
   useEffect(() => {
-    getExamStats()
-      .then(stats => {
-        setAvgScore(stats.average_score);
-        setExamsTaken(stats.total_exams);
+    fetch('http://localhost:8001/api/results/stats')
+      .then(res => res.json())
+      .then(data => {
+        setAvgScore(data.average_score);
+        setExamsTaken(data.total_exams);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error("Failed to fetch stats:", err));
 
     fetch('http://localhost:8001/api/questions')
       .then(res => res.json())

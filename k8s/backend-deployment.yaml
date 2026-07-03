@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: aws-study-app
+spec:
+  replicas: 1 # 1 Replica is important because SQLite cannot be concurrently written by multiple pods easily without locks
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: aws-test-backend:latest
+        imagePullPolicy: Never # Adjust to Always if pushing to a remote registry like Docker Hub or ECR
+        ports:
+        - containerPort: 8001
+        volumeMounts:
+        - name: data-volume
+          mountPath: /app/data
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: backend-data-pvc
